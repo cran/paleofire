@@ -1,0 +1,70 @@
+\name{pfCompositeLF}
+\alias{pfCompositeLF}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Produce a composite serie from multiple charcoal records using a local regression procedure (from the locfit package)}
+\description{
+Produce a composite serie from multiple charcoal local fits produced using the locfit procedure on bootstraped series subsamples, the sites charcoal values are prebinned prior to sites resampling. This procedure is equivalent to Daniau et al. (2012).
+}
+\usage{
+pfCompositeLF(TR,hw=250,tarAge=NULL,binhw=NULL,nboot=1000,conf=c(0.05,0.95),
+                       pseudodata=FALSE)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{TR}{
+An object returned by \code{\link{pfTransform}}}
+  \item{tarAge}{
+Numeric, the target ages for prebinning given in years (e.g. tarAge=seq(0,10000,20)).
+If unspecified the sequence is defined as tarAge=seq(from=min age, to=max Age, by=median resolution).
+}
+ \item{binhw}{
+Numeric, bin half width for the prebinning procedure (use the same value as tarAge intervals for overlapping bins or tarAge intervals/2 for non-overlapping bins).}
+  \item{nboot}{
+Numeric, a number specifying the number of bootstrap replicates.}
+  \item{hw}{
+Numeric, the half window width for the locfit procedure (in years).}
+\item{conf}{
+Numeric, define confidence levels.}
+  \item{pseudodata}{
+Logical, if TRUE 10 percent of the data is reflected at the top and the bottom of the resampled serie prior of each locfit regression in order to correct for the edge effect introduced by the local regression, see Cowling & Hall (1996). Equivalent to "minimum slope" correction in Mann(2004).}
+}
+
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+  \item{out}{A "pfCompositeLF" object.}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
+}
+\references{
+Daniau, A. L., P. J. Bartlein, S. P. Harrison, I. C. Prentice, S. Brewer, P. Friedlingstein, T. I. Harrison-Prentice, J. Inoue, K. Izumi, J. R. Marlon, S. Mooney, M. J. Power, J. Stevenson, W. Tinner, Andri, M., J. Atanassova, H. Behling, M. Black, O. Blarquez, K. J. Brown, C. Carcaillet, E. A. Colhoun, D. Colombaroli, B. A. S. Davis, D. D'Costa, J. Dodson, L. Dupont, Z. Eshetu, D. G. Gavin, A. Genries, S. Haberle, D. J. Hallett, G. Hope, S. P. Horn, T. G. Kassa, F. Katamura, L. M. Kennedy, P. Kershaw, S. Krivonogov, C. Long, D. Magri, E. Marinova, G. M. McKenzie, P. I. Moreno, P. Moss, F. H. Neumann, E. Norstrom, C. Paitre, D. Rius, N. Roberts, G. S. Robinson, N. Sasaki, L. Scott, H. Takahara, V. Terwilliger, F. Thevenon, R. Turner, V. G. Valsecchi, B. Vanniere, M. Walsh, N. Williams, and Y. Zhang. 2012. Predictability of biomass burning in response to climate changes. Global Biogeochem. Cycles 26:GB4007.
+
+Cowling A, Hall P (1996) On pseudodata methods for removing boundary effects in kernel density estimation. Journal of the Royal Statistical Society, Series B 58(3):
+551-563.
+
+Mann, M. E. (2004). On smoothing potentially non-stationary climate time series. Geophysical Research Letters, 31(7).
+}
+\author{
+O.Blarquez}
+
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+
+\examples{
+ID=pfSiteSel(Region=c("WNA0"),L12=1,Longlim=c(-160,-140))
+
+TR=pfTransform(ID, method=c("MinMax","Box-Cox","MinMax","Z-Score"),
+               BasePeriod=c(200,2000),QuantType="INFL")
+
+COMP1=pfCompositeLF(TR, tarAge=seq(-50,4000,10), hw=200, nboot=100)
+
+plot(COMP1)
+
+## Note: comparing confidence intervals based on 100 replicates is not recommended
+# (100 is used to decrease analysis time)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
