@@ -12,8 +12,8 @@ The paleofire package provides tools to extract and analyse charcoal sedimentary
 \tabular{ll}{
 Package: \tab paleofire\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2013-05-23\cr
+Version: \tab 1.1\cr
+Date: \tab 2014-03-10\cr
 License: \tab GPL (>=2)\cr
 }
 }
@@ -36,29 +36,23 @@ Power, M., J. Marlon, N. Ortiz, P. Bartlein, S. Harrison, F. Mayle, A. Ballouche
 # ID=pfInteractive()
 
 ## Site selection using criterions
-# DateInt parameter is used to set the mean interval which is required between two
-# dating points (ex 14C) for sites to be selected for a complete list of criterions
-# that can be used see pfSiteSel function
+# Boreal Eastern North American sites with at least one
+# dating point each 2500 year
 
-ID=pfSiteSel(Latlim=c(50,70),Longlim=c(-90,-50), DateInt=3000)
+ID=pfSiteSel(lat>50, lat<70, long>-90, long<(-50), date_int<=2500, l12==1)
 plot(ID,zoom="world")
 
-## Filter sites based on sample number using summary function
-sumID=summary(ID)
-sites_inc=sumID$ID_SITE[sumID$NUM_SAMP>=20]
-ID=pfSiteSel(ID=sites_inc)
-
-## Associated plots
+## Modify plot
 plot(ID,zoom="sites")
 
 ## Simple test for transforming data
 # Select site 1 (Cygnet Lake)
 
-ID=pfSiteSel(ID=1)
-plot(ID)
+ID1=pfSiteSel(id_site==1)
+plot(ID1)
 
 # Transformation of data
-TR=pfTransform(ID,method=c("MinMax", "Box-Cox", "Z-Score"))
+TR=pfTransform(ID1,method=c("MinMax", "Box-Cox", "Z-Score"))
 
 # Plot Transformed and raw data
 # First retrieve raw data for Cygnet using pfExtract
@@ -75,7 +69,7 @@ plot(TR$Age,TR$TransData,type="l")
 ## Transforming and Compositing
 ## Example 1: Usage as in Power et al. 2008
 ## Data transformation
-ID=pfSiteSel(Latlim=c(50,70),Longlim=c(-90,-50), DateInt=3000)
+
 TR1=pfTransform(ID, method=c("MinMax","Box-Cox","Z-Score"),BasePeriod=c(200,2000))
 
 ## Diagnostic pdf file with transformed series:
@@ -88,7 +82,7 @@ COMP=pfComposite(TR1, binning=TRUE, bins=seq(0,8000,500))
 plot(COMP)
 
 ## The result matrix can be saved
-write.csv(COMP$Result,file="temp.csv")
+# write.csv(COMP$Result,file="temp.csv")
 
 
 ## Compositing: Using the locfit package equivalent procedure to Daniau et al. 2012
@@ -97,6 +91,6 @@ COMP2=pfCompositeLF(TR1, tarAge=seq(-50,8000,20), binhw=20, hw=500,nboot=100)
 plot(COMP2)
 
 ## And save
-write.csv(COMP2$Result,file="temp2.csv")
+# write.csv(COMP2$Result,file="temp2.csv")
 
 }

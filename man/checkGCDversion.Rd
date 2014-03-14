@@ -4,7 +4,7 @@
 \title{
 Check GCD package install}
 \description{
-Check if GCD package is installed and up to date during paleofire attach to ensure always using the most up to date GCD version. devtools package is required: on Windows install Rtools.exe depending on your R version http://cran.r-project.org/bin/windows/Rtools/
+Check if GCD package is installed and up to date to ensure always using the most up to date GCD version. devtools package is required: on Windows install Rtools.exe depending on your R version http://cran.r-project.org/bin/windows/Rtools/
 }
 \usage{
 checkGCDversion()
@@ -21,7 +21,7 @@ Last GCD database version is donwloaded and installed using:
 O. Blarquez}
 
 \examples{
-checkGCDversion()
+#checkGCDversion()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

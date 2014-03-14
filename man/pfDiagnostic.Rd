@@ -6,7 +6,7 @@ Print diagnostic pdf for individual transformed series}
 \description{
 Print diagnostic pdf for individual transformed series, successive transformations could be specified (see example)}
 \usage{
-pfDiagnostic(IDn, add = NULL, Age = 0, Interpolate = FALSE, method
+pfDiagnostic(ID, add = NULL, Age = 0, Interpolate = FALSE, method
                  = "Box-Cox", BasePeriod = c(-100, 1e+09), span = 0.3,
                  RunWidth = 500, RunQParam = 0.5, stlYears = 500, alpha
                  = 0.01, type = "BoxCox1964", FileName =
@@ -14,7 +14,7 @@ pfDiagnostic(IDn, add = NULL, Age = 0, Interpolate = FALSE, method
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{IDn}{
+  \item{ID}{
 An object returned by \code{\link{pfSiteSel}} or \code{\link{pfTransform}}
 }
 \item{add}{
@@ -73,7 +73,7 @@ O. Blarquez}
 
 \examples{
 # Select boreal sites from Levavasseur 2012 PNV in Western North America
-ID=pfSiteSel(Region=c("WNA0"),L12=1,Longlim=c(-160,-140))
+ID=pfSiteSel(id_region=="WNA0", l12==1, long>=-160 & long<=-140)
 
 # Print a diagnostic pdf for Box-Cox, Smoothed and Z-score tranformed data 
 # (base period = 200-2000 BP)

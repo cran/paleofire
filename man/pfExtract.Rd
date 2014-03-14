@@ -3,13 +3,13 @@
 \title{
 Extract charcoal data for a list of sites}
 \description{
-Extract charcoal data from an IDn object obtained by \code{\link{pfSiteSel}}}
+Extract charcoal data from an object returned by \code{\link{pfSiteSel}}}
 \usage{
-pfExtract(IDn)
+pfExtract(ID)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{IDn}{
+  \item{ID}{
 An object returned by \code{\link{pfSiteSel}}.}
 }
 
@@ -28,14 +28,14 @@ O. Blarquez}
 
 \examples{
 ## Retrieve a site
-ID=pfSiteSel(SiteName="Pas-de-Fond")
+ID=pfSiteSel(site_name=="Pas-de-Fond")
 ## Or a group of sites (Western North America)
-ID=pfSiteSel(Region=c("WNA0"))
+ID=pfSiteSel(id_region==c("WNA0"))
 
 ## Extract data
 A=pfExtract(ID)
 
 # Plot the first site raw charcoal data
-plot(A[A[,1]==ID$SitesIDS[1],3],A[A[,1]==ID$SitesIDS[1],4],type="l",main=ID$SiteNames[1],
+plot(A[A[,1]==ID$id_site[1],3],A[A[,1]==ID$id_site[1],4],type="l",main=ID$site_name[1],
      xlab="Age",ylab="raw Char")
 }
