@@ -1,4 +1,4 @@
-30aec712be8c63dd3799ffad79eb8687 *DESCRIPTION
+34331f5d784cbc678addc740acd81444 *DESCRIPTION
 a38d04ee8e660cf4cb6b8d90e6b2e142 *NAMESPACE
 d606612635e98c44a4fd8eba64f9d8cd *NEWS
 7eeca1d6f9ad474856252f04de294c29 *R/pfAddData.R
@@ -9,7 +9,7 @@ cddd70f84f62470f57fa3aa8505f6a5a *R/pfCircular.R
 2cda7098b1b01afdba2b42f0d69c8707 *R/pfDiagnostic.R
 87ace9ee226082b9d02960ab22236c25 *R/pfDotMap.R
 a6b9b9f1990ad5432b8832953c2ae873 *R/pfExtract.R
-6c95f250991a8450b117ee0c3f4c5350 *R/pfGridding.R
+d3119bd4679cb44e0966cb79d52b9184 *R/pfGridding.R
 8145e4af30833f73405ed3b8b052afff *R/pfInteractive.R
 6a758fe81f585d9b7b8b88a6185cb599 *R/pfKruskal.R
 217fe0dedf697aaca9453b89e47a1da5 *R/pfMinMax.R
