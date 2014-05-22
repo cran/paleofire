@@ -8,16 +8,17 @@ pfGridding=function(data,cell_sizex=NULL,
                     raster_extent=NULL,
                     elevation_buffer=NULL,
                     proj4=NULL,
-                    sea_mask=FALSE,
+                    sea_mask=TRUE,
+                    other_mask=NULL,
                     verbose=TRUE){
   
   ## pfTransform object
   if(class(data)=="pfTransform"){
-      data<-data.frame(
-        x=rep(summary(data$params$ID)$long,each=length(data$TransData[,1])),
-        y=rep(summary(data$params$ID)$lat,each=length(data$TransData[,1])),
-        age=c(data$Age),
-        char=c(data$TransData));
+    data<-data.frame(
+      x=rep(summary(data$params$ID)$long,each=length(data$TransData[,1])),
+      y=rep(summary(data$params$ID)$lat,each=length(data$TransData[,1])),
+      age=c(data$Age),
+      char=c(data$TransData));
     data=na.omit(data)
     ## Remove extreme outliers i.e. 3*sd (sometimes happens... why? probably baseperiod related)
     data=data[data[,4]<3*sd(data[,4]) & data[,4]>-(3*sd(data[,4])) ,]
@@ -77,7 +78,7 @@ pfGridding=function(data,cell_sizex=NULL,
   nc=ceiling((e@xmax-e@xmin)/cell_sizex)
   nr=ceiling((e@ymax-e@ymin)/cell_sizey)
   
-  r <- raster(e, ncol=nc, nrow=nr) # Empty raster
+  r <- raster(e, ncol=nc, nrow=nr, resolution=c(cell_sizex,cell_sizey)) # Empty raster
   projection(r)<-proj4
   
   if(is.null(distance_buffer)) distance_buffer=300000
@@ -86,6 +87,12 @@ pfGridding=function(data,cell_sizex=NULL,
   if(is.null(elevation_buffer)==FALSE | sea_mask==TRUE){
     temp=rasterToPoints(dem1)
     temp1=rasterize(temp[, 1:2], r, temp[,3], fun=mean)
+    ## ???????? Hack for Sea Mask NEW 12 may 14
+    dem2=dem1
+    dem2[is.na(dem2)]=-9999
+    dem2=rasterToPoints(dem2)
+    temp2=rasterize(dem2[, 1:2], r, dem2[,3], fun=median)
+    ## !!!!!!!!
     z=raster::intersect(temp1,r)
     # plot(temp1)
     elev1=rasterToPoints(temp1)[,3]
@@ -149,9 +156,19 @@ pfGridding=function(data,cell_sizex=NULL,
   
   ## SEA MASK  
   if(sea_mask==TRUE){
-    r2 <- is.na(temp1)  ## sea is now 1
+    r2 <- temp2<(-1000) ## sea is now 1
     r2[r2==1]=NA
-    #plot(r2) 
+    ## Other mask (e.g. ice) see help for details
+    if(is.null(other_mask)==FALSE){
+      #       plot(r2) 
+      r3=mask(r2,other_mask)
+      #       plot(r3)
+      r3[r3==0]=1
+      r3[is.na(r3)]=0
+      #       plot(r2-r3)
+      r2=r2-r3;r2[r2!=0]=NA
+      #       plot(r2)
+    }
     # !!!!!!MASK
     r1=(r1-r2)
   }
@@ -162,23 +179,24 @@ pfGridding=function(data,cell_sizex=NULL,
   
   ## End of DATA part --------------------------------------------------------------------
   
-  out=list(raster=r1,df=dat1,proj4=proj4,extent=e,points=dat2)
+  out=list(raster=r1,df=dat1,proj4=proj4,extent=e,points=dat2,res=c(cell_sizex,cell_sizey))
   class(out)="pfGridding"
   return(out)
   
 }
 
 plot.pfGridding=function(x,continuous=TRUE,
-                col_class=NULL,
-                col_lim=NULL,
-                xlim=NULL,ylim=NULL,empty_space=10,
-                cpal="YlGn",
-                anomalies=TRUE,
-                file=NULL,points=FALSE,...){
+                         col_class=NULL,
+                         col_lim=NULL,
+                         xlim=NULL,ylim=NULL,empty_space=10,
+                         cpal="YlGn",
+                         anomalies=TRUE,
+                         file=NULL,points=FALSE,add=NULL,...){
   
-  y=NULL ##  no visible binding for global variable 'y' ?
+  y=long=lat=group=res1=res2=NULL ##  no visible binding for global variable 'y' ?
   
   x$df=as.data.frame(rasterToPoints(x$raster))
+  
   # Define classes for colors
   if(is.null(col_class)){
     if(anomalies==TRUE){
@@ -225,8 +243,8 @@ plot.pfGridding=function(x,continuous=TRUE,
     ylim=c(x$extent@ymin-yplus,x$extent@ymax+yplus)}
   
   ## Crop coast using limits
-    coast=coast[coast$x>xlim[1]-8000000 & coast$x<xlim[2]+8000000 &
-                  coast$y>ylim[1]-8000000 & coast$y<ylim[2]+8000000,]
+  coast=coast[coast$x>xlim[1]-8000000 & coast$x<xlim[2]+8000000 &
+                coast$y>ylim[1]-8000000 & coast$y<ylim[2]+8000000,]
   #plot(coast[,1],coast[,2],type="l")
   
   x$points=data.frame(na.omit(x$points))
@@ -238,18 +256,19 @@ plot.pfGridding=function(x,continuous=TRUE,
   
   testcol  <- colorRampPalette(pal)
   
-  ## LIMITS
-  if(is.null(xlim)){
-    xplus=(x$extent@xmax-x$extent@xmin)*0.1
-    xlim=c(x$extent@xmin-xplus,x$extent@xmax+xplus)}
-  
-  if(is.null(ylim)){
-    yplus=(x$extent@ymax-x$extent@ymin)*0.1
-    ylim=c(x$extent@ymin-yplus,x$extent@ymax+yplus)}
+  #   ## LIMITS
+  #   if(is.null(xlim)){
+  #     xplus=(x$extent@xmax-x$extent@xmin)*0.1
+  #     xlim=c(x$extent@xmin-xplus,x$extent@xmax+xplus)}
+  #   
+  #   if(is.null(ylim)){
+  #     yplus=(x$extent@ymax-x$extent@ymin)*0.1
+  #     ylim=c(x$extent@ymin-yplus,x$extent@ymax+yplus)}
   
   ## SAME COLORS 
   if(continuous==FALSE & is.numeric(col_class) & length(col_class)>1){
-    c1=breaks+(mean(diff(breaks)/2))
+    options(warn=-1)
+    c1=breaks+(diff(breaks)/2)
     c3=cbind(xlim[2]+1e+6,ylim[2]+1e+6,c1)
     c3=c3[1:(length(c3[,1])-1),]
     c3=data.frame(c3,rr=(cut(c3[,3],breaks)))
@@ -257,30 +276,47 @@ plot.pfGridding=function(x,continuous=TRUE,
     x$df=rbind(x$df,c3)
   }
   ## 
-  pale=testcol(length(unique(x$df$class)))
+  pale=testcol(length(levels(x$df$class)))
   
   #display.brewer.pal(12,"Spectral")
   #pal=c(pal[9],pal[8],pal[6:1])
   ## On fait une carte avec ggplot2
   #pdf(file="/Users/Olivier/Desktop/x$dfMap.pdf",height=6,width=9)
+  
+  ## Add shp to the plot
+  if(is.null(add)==FALSE){
+    theclass=lapply(add@data, class) 
+    theclass=which(theclass=="factor")
+    add@data$id = add@data[,as.numeric(theclass[1])]
+    add.points = fortify(add, region="id")
+    add.df = plyr::join(add.points, add@data, by="id")    
+  }
+  
+  ##
+  x$df$res1=x$res[1]; x$df$res2=x$res[2]
+  
   if(continuous==FALSE){
     p=ggplot(x$df) +
       geom_polygon(data=coast,aes(x=x,y=y),colour="grey80",fill="grey80")+
-      geom_raster(data=x$df,aes(x=x, y=y, fill = class))+
+      geom_tile(data=x$df,aes(x=x, y=y, fill = class,width=res1,height=res2))+
       scale_fill_manual(values = pale,name="")+
       coord_cartesian(xlim=xlim,ylim=ylim)+xlab("Longitude")+ylab("Latitude")+
       theme_bw(base_size = 16)
     if(points==TRUE) p=p+geom_point(data=x$points,aes(x=x,y=y),colour="grey40")
-
+    if(is.null(add)==FALSE){
+      p=p+geom_path(data=add.df,aes(x=long,y=lat,group=group),color="black")
+    }
   } else {
     p=ggplot(x$df) +
       geom_polygon(data=coast,aes(x=x,y=y),colour="grey80",fill="grey80")+
-      geom_raster(data=x$df,aes(x=x, y=y, fill = layer))+
+      geom_tile(data=x$df,aes(x=x, y=y, fill = layer, width=res1, height=res2))+
       scale_fill_gradient2(high=pal[9],low=pal[1],mid="white",limits=col_lim)+
       coord_cartesian(xlim=xlim,ylim=ylim)+xlab("Longitude")+ylab("Latitude")+
       theme_bw(base_size = 16)
     if(points==TRUE) p=p+geom_point(data=x$points,aes(x=x,y=y),colour="grey40")
-      
+    if(is.null(add)==FALSE){
+      p=p+geom_path(data=add.df,aes(x=long,y=lat,group=group),color="black")
+    }
   }
   p
   if(is.null(file)==FALSE){
