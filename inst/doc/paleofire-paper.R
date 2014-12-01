@@ -4,7 +4,7 @@
 ###################################################
 ### code chunk number 1: loadPackage
 ###################################################
-install.packages("paleofire",repo="http://cran.r-project.org")
+#install.packages("paleofire",repo="http://cran.r-project.org")
 library(paleofire)
 
 
@@ -91,16 +91,10 @@ plot(COMP2,conf=c(0.05,0.95),main="(b)")
 
 
 ###################################################
-### code chunk number 12: circ
+### code chunk number 12: circ (eval = FALSE)
 ###################################################
-circboot <- pfCircular(COMP1, b=NULL, nboot=100,
-                       conf=c(0.005,0.025,0.975,0.995))
-plot(circboot)
-
-
-###################################################
-### code chunk number 13: fig3
-###################################################
-plot(circboot)
+## circboot <- pfCircular(COMP1, b=NULL, nboot=100,
+##                         conf=c(0.005,0.025,0.975,0.995))
+## plot(circboot)
 
 
