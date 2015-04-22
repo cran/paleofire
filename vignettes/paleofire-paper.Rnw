@@ -65,6 +65,7 @@
 
 \title{\texttt{paleofire}: an R package to analyse sedimentary charcoal records from the Global Charcoal Database to reconstruct past biomass burning}
 \tnotetext[t1]{paleofire package version 1.1.3}
+\tnotetext[t1]{Citing this vignette: Blarquez, O., Vannière, B., Marlon, J. R., Daniau, A. L., Power,M. J., Brewer, S., \& Bartlein, P. J. (2014). paleofire: an R package to analyse sedimentary charcoal records from the Global Charcoal Database to reconstruct past biomass burning. Computers \& Geosciences, 72, 255-261.}
 
 \author[1,2]{Blarquez, Olivier\corref{cor1}}
 \ead{blarquez@gmail.com}

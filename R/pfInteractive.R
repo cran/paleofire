@@ -1,16 +1,37 @@
+#' GCD sites interactive selection
+#' 
+#' Interactive selection of GCD sites by drawing a polygon on a map.
+#' 
+#' 
+#' @param addata An optional XY matrix of coordinates to specify a polygon to
+#' be drawn on the map.
+#' @return An object of the class "pfSiteSel".
+#' @author O. Blarquez
+#' @seealso \code{\link{pfSiteSel}}
+#' @examples
+#' 
+#' \dontrun{
+#' # Type: 
+#' ID=pfInteractive()
+#' # And follow text instructions}
+#' 
+#' 
 pfInteractive=function(addata=NULL){
   
-  install.packages("Imap");require(Imap)
+  # install.packages("Imap");
   ## Avoid no visible binding for global variable
   paleofiresites=NULL; rm(paleofiresites)
-  coast=NULL; rm(coast)
+  countries=NULL; rm(countries)
   
+  if (!requireNamespace("Imap", quietly = TRUE)) {
+    install.packages("Imap")
+  }
   
   ## Load data  
   data(paleofiresites,envir = environment())
-  data(coast,envir = environment())
+  data(countries,envir = environment())
   ## Define vectors
-  yy=cbind(coast[,2],coast[,1])
+  yy=cbind(countries$x,countries$y)
   pp=cbind(paleofiresites$long,paleofiresites$lat)
   
   ## Use imap for interactive plot
@@ -60,7 +81,7 @@ three vertices (polygon must be convex ). Right click or click finish when ready
   class(output)="pfSiteSel"
   ## Remove data
   #rm(paleofiresites,envir = globalenv())
-  #rm(coast,envir = globalenv())
+  #rm(countries,envir = globalenv())
   ## Return output
   return(output)
   
