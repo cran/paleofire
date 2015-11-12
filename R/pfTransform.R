@@ -77,6 +77,27 @@ pfTransform=function(ID=NULL,
                      MethodType=NULL,
                      verbose=TRUE
 ){
+  
+  
+  ## TEST
+#   ID=NULL;
+#   add=NULL;
+#   Interpolate=FALSE;
+#   Age=NULL;
+#   method="NULL";
+#   BasePeriod=c(-100,1e+09);
+#   span=0.3;
+#   RunWidth=500;
+#   RunQParam=0.5;
+#   stlYears=500;
+#   type="BoxCox1964";
+#   alpha=0.01;
+#   QuantType="INFL";
+#   MethodType=NULL;
+#   verbose=TRUE
+  ## TEST
+  
+  
   ## Avoid no visible binding for global variable
   paleofiresites=NULL; rm(paleofiresites)
   
@@ -84,7 +105,7 @@ pfTransform=function(ID=NULL,
   IDChar=ID
   
   # Check methods
-  methods=c("stl", "Z-Score", "Box-Cox", "LOESS", "MinMax", "RunMed", "RunMean", "RunMin", "RunMax", "RunQuantile", "SmoothSpline", "Hurdle")
+  methods=c("stl", "Z-Score", "Box-Cox", "LOESS", "MinMax", "RunMed", "RunMean", "RunMin", "RunMax", "RunQuantile", "SmoothSpline", "Hurdle", 'NULL')
   warnmethod=method[(method %in% methods)==FALSE]
   if(length(warnmethod)!=0){stop(paste(warnmethod, "is not a valid method for pfTransform", sep=" "))}
   
@@ -93,9 +114,9 @@ pfTransform=function(ID=NULL,
   if(length(warntype)!=0){stop(paste(warntype, "is not a valid type for pfBoxCox", sep=" "))}
   
   if(method=="RunMean" || method=="RunMin" || method=="RunMed" || method=="RunMax" || 
-       method=="RunQuantile") {
-    install.packages("caTools")
-    install.packages("gtools")
+     method=="RunQuantile") {
+    if("caTools" %in% rownames(installed.packages()) == FALSE) {install.packages("caTools")}
+    if("gtools" %in% rownames(installed.packages()) == FALSE) {install.packages("gtools")}
   }
   
   if(identical(method, "Hurdle") ) {install.packages("pscl")}
@@ -159,7 +180,7 @@ pfTransform=function(ID=NULL,
         if(QuantType=="INFL"){
           for(i in ID)  
             if( !(unique(paleofiredata[paleofiredata[,1]==i,7]) %in% "INFL") & 
-                  is.na(sum(paleofiredata[paleofiredata[,1]==i,2]))==FALSE){
+                is.na(sum(paleofiredata[paleofiredata[,1]==i,2]))==FALSE){
               infl=influx(paleofiredata[paleofiredata[,1]==i,])
               paleofiredata[paleofiredata[,1]==i,4]=c(infl)
             }
@@ -183,7 +204,7 @@ pfTransform=function(ID=NULL,
         if(QuantType=="INFL"){
           for(i in ID)  
             if( !(unique(paleofiredata[paleofiredata[,1]==i,7]) %in% "INFL") & 
-                  is.na(sum(paleofiredata[paleofiredata[,1]==i,2]))==FALSE){
+                is.na(sum(paleofiredata[paleofiredata[,1]==i,2]))==FALSE){
               infl=influx(paleofiredata[paleofiredata[,1]==i,])
               paleofiredata[paleofiredata[,1]==i,4]=c(infl)
             }
@@ -354,6 +375,9 @@ pfTransform=function(ID=NULL,
           dim(x)=NULL
           stlResult=stl(x,"per")$time.series[,2]
           transI[,k]=approx(agesI,stlResult,Ages[,k])$y
+        }
+        if(methodj=='NULL'){
+          transI[,k]=approx(tmp[,1],tmp[,2],Ages[,k])$y
         }
         if (methodj=="Z-Score") {
           mu=mean(tmp[tmp[,1]>=BasePeriod[1] & tmp[,1]<=BasePeriod[2],2])
