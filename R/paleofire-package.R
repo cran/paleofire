@@ -7,7 +7,7 @@
 #' compositing.
 #' 
 #' \tabular{ll}{ Package: \tab paleofire\cr Type: \tab Package\cr Version: \tab
-#' 1.1.8\cr Date: \tab 2015-12-21\cr License: \tab GPL (>=2)\cr }
+#' 1.1.9\cr Date: \tab 2016-09-19\cr License: \tab GPL (>=2)\cr }
 #' 
 #' @name paleofire-package
 #' @aliases paleofire-package paleofire
@@ -91,7 +91,7 @@ NULL
 #' Internal paleofire functions and functions waiting for man.
 #' 
 #' 
-#' @aliases bootCI haverdist dem loessGCV bestLoess countries influx
+#' @aliases bootCI haverdist dem loessGCV bestLoess countries influx contrib
 #' @name paleofire-internal
 #' 
 NULL

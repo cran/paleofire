@@ -5,7 +5,7 @@
 \title{plot.potveg}
 \usage{
 \method{plot}{potveg}(x, size = 4, palette = NULL, alpha = 0.5,
-  text = FALSE, ...)
+  text = FALSE, points = TRUE, ...)
 }
 \arguments{
 \item{x}{A "potveg object."}
@@ -18,6 +18,8 @@
 
 \item{text}{Logical: plot sites as numbers referring to potential vegetation
 index (text=TRUE) or as points (text=FALSE, default).}
+
+\item{points}{Logical: plot sites (TRUE, default)}
 
 \item{\dots}{...}
 }

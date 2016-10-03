@@ -1,8 +1,8 @@
 Package: paleofire
 Type: Package
 Title: Analysis of Charcoal Records from the Global Charcoal Database
-Version: 1.1.8
-Date: 2015-12-21
+Version: 1.1.9
+Date: 2016-09-19
 Author: Global Paleofire Working Group <paleofire@univ-fcomte.fr>
 Maintainer: Olivier Blarquez <blarquez@gmail.com>
 Description: Tools to extract and analyse charcoal sedimentary data stored in
@@ -19,6 +19,6 @@ LazyData: no
 Encoding: UTF-8
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2015-12-21 16:44:08 UTC; OlivierB
+Packaged: 2016-10-03 21:36:44 UTC; OlivierB
 Repository: CRAN
-Date/Publication: 2015-12-21 18:15:47
+Date/Publication: 2016-10-03 23:48:48

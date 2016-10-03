@@ -4,7 +4,8 @@
 \alias{plot.kdffreq}
 \title{plot.kdffreq}
 \usage{
-\method{plot}{kdffreq}(x, ylim = NULL, xlim = NULL, ...)
+\method{plot}{kdffreq}(x, ylim = NULL, xlim = NULL, main = NULL,
+  xlab = "Age", ylab = "FF (#.yr-1)", ...)
 }
 \arguments{
 \item{x}{Object returned by kdffreq}
@@ -12,6 +13,12 @@
 \item{ylim}{Numeric, y axis limits}
 
 \item{xlim}{Numeric x axis limits}
+
+\item{main}{char, title of plot}
+
+\item{xlab}{char, x axis legend}
+
+\item{ylab}{char, y axis legend}
 
 \item{...}{other arguments}
 }
