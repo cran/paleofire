@@ -26,7 +26,7 @@
 #' Adams, J. B., M. E. Mann, and C. M. Ammann. 2003. Proxy evidence for an El
 #' Nino-like response to volcanic forcing. Nature 426:274-278.
 #' @examples
-#' 
+#' \dontrun{
 #' ID=pfSiteSel(lat>49, lat<75, long>6, long<50)
 #' plot(ID,zoom="world")
 #' TR1=pfTransform(ID, method=c("MinMax","Box-Cox","Z-Score"),BasePeriod=c(200,2000))
@@ -36,7 +36,7 @@
 #' COMP=pfComposite(TR1, binning=TRUE, bins=seq(0,2000,100))
 #' circ=pfCircular(COMP,conf=c(0.005,0.025,0.975,0.995),nboot=100)
 #' plot(circ)
-#' 
+#' }
 pfCircular=function(comp,b=NULL,conf=c(0.05,0.95),nboot=1000,AgeLim=NULL){
   
   ## R function developped from SEA.m   
