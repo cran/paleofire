@@ -12,7 +12,7 @@ library(paleofire)
 ### code chunk number 2: selectSites
 ###################################################
 ID <- pfSiteSel(lat>30 & lat<90, long>-100 & long<(-50), 
-                date_int<=2500)
+                date_int<=2500, num_version<400)
 length(ID$id_site)
 
 
