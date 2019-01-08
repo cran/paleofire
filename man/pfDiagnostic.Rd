@@ -7,7 +7,8 @@
 pfDiagnostic(ID, add = NULL, Age = 0, Interpolate = FALSE,
   method = "Box-Cox", BasePeriod = c(-100, 1e+09), span = 0.3,
   RunWidth = 500, RunQParam = 0.5, stlYears = 500, alpha = 0.01,
-  type = "BoxCox1964", FileName = "Diagnostic.pdf", QuantType = "ALL")
+  type = "BoxCox1964", FileName = "Diagnostic.pdf",
+  QuantType = "ALL")
 }
 \arguments{
 \item{ID}{An object returned by \code{\link{pfSiteSel}} or
@@ -69,7 +70,7 @@ Print diagnostic pdf for individual transformed series, successive
 transformations could be specified (see example)
 }
 \examples{
-
+\dontrun{
 # Select boreal sites from Levavasseur 2012 PNV in Western North America
 ID=pfSiteSel(continent=="North America", l12==1, long>=-160 & long<=-140)
 
@@ -78,7 +79,7 @@ ID=pfSiteSel(continent=="North America", l12==1, long>=-160 & long<=-140)
 pfDiagnostic(ID,method=c("Box-Cox", "SmoothSpline","Z-Score"),
              span=0.3,BasePeriod=c(200,4000))
 
-
+}
 }
 \author{
 O. Blarquez

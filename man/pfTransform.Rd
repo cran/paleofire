@@ -6,8 +6,9 @@
 \usage{
 pfTransform(ID = NULL, add = NULL, Interpolate = FALSE, Age = NULL,
   method = "Z-Score", BasePeriod = c(-100, 1e+09), span = 0.3,
-  RunWidth = 500, RunQParam = 0.5, stlYears = 500, type = "BoxCox1964",
-  alpha = 0.01, QuantType = "INFL", MethodType = NULL, verbose = TRUE)
+  RunWidth = 500, RunQParam = 0.5, stlYears = 500,
+  type = "BoxCox1964", alpha = 0.01, QuantType = "INFL",
+  MethodType = NULL, verbose = TRUE)
 }
 \arguments{
 \item{ID}{An object returned by \code{\link{pfSiteSel}} or
@@ -76,7 +77,7 @@ unique to multiple series, accepts objects returned by
 \code{\link{pfSiteSel}}.
 }
 \examples{
-
+\dontrun{
 ## Select the site Pas-de-Fond
 ID=pfSiteSel(site_name=="Pas-de-Fond")
 
@@ -85,7 +86,7 @@ tr=pfTransform(ID,method=c("MinMax","Box-Cox"))
 
 ## Plot transformed data for the first site
 plot(tr$Age[,1],tr$TransData[,1],type="l")
-
+}
 
 }
 \author{

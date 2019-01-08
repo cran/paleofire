@@ -72,8 +72,10 @@ pfCircular <- function(comp, b=NULL, conf=c(0.05, 0.95), nboot=1000, AgeLim=NULL
 
   ## Declare values for the boot process
   y_m <- matrix(ncol = nboot, nrow = nrow(Temp))
-  cat("# of Bootstrap:")
-
+  #cat("# of Bootstrap:")
+  
+  pb   <- txtProgressBar(1, nboot, style=3)
+  
   for (k in 1:nboot) {
     y_n <- matrix(nrow = nrow(Temp), ncol = ncol(Temp))
     for (i in 1:length(Temp[1, ])) {
@@ -89,8 +91,11 @@ pfCircular <- function(comp, b=NULL, conf=c(0.05, 0.95), nboot=1000, AgeLim=NULL
       y_n[, i] <- yy[1:length(Temp[, 1])]
     }
     y_m[, k] <- rowMeans(y_n, na.rm = TRUE)
-
-    if (k %in% seq(0, nboot, 10)) cat("", k)
+    
+    Sys.sleep(0.00002)
+    if(k %in% seq(0, nboot, 10)){
+         setTxtProgressBar(pb, k)
+    }
   }
 
   ## Compile conf intervals
@@ -113,7 +118,8 @@ pfCircular <- function(comp, b=NULL, conf=c(0.05, 0.95), nboot=1000, AgeLim=NULL
     conf = conf,
     yr = yr,
     BootCi = Ci,
-    BootMean = BootMean
+    BootMean = BootMean,
+    b=b
   ))
   class(output) <- "pfCircular"
   return(output)
@@ -140,7 +146,7 @@ pfCircular <- function(comp, b=NULL, conf=c(0.05, 0.95), nboot=1000, AgeLim=NULL
 #' @param \dots \dots{}
 #' @author O. Blarquez
 #' @examples
-#'
+#' \dontrun{
 #' ID=pfSiteSel(lat>49,lat<75,long>6,long<50)
 #' TR1=pfTransform(ID, method=c("MinMax","Box-Cox","Z-Score"),BasePeriod=c(200,2000))
 #'
@@ -148,7 +154,7 @@ pfCircular <- function(comp, b=NULL, conf=c(0.05, 0.95), nboot=1000, AgeLim=NULL
 #' COMP=pfComposite(TR1, binning=TRUE, bins=seq(0,2000,100))
 #' circ=pfCircular(COMP,conf=c(0.005,0.025,0.975,0.995),nboot=100)
 #' plot(circ)
-#'
+#' }
 plot.pfCircular <- function(x, ylim=NULL, xlim=NULL, ylab=NULL, xlab=NULL, main=NULL, text=FALSE, ...) {
   ## Plot
 

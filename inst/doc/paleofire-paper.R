@@ -37,61 +37,53 @@ plot(ID, zoom="world")
 
 
 ###################################################
-### code chunk number 6: TRANSFORM
+### code chunk number 6: TRANSFORM (eval = FALSE)
 ###################################################
-TR1 <- pfTransform(ID, method=c("MinMax","Box-Cox","Z-Score"))
-
-
-###################################################
-### code chunk number 7: ADDDATA
-###################################################
-## Add Ben lake and Small lake data to the 
-# analysis (Senici et al., 2013) 
-download.file(url="http://blarquez.com/public/data/data_cageo.zip", 
-                destfile="data_cageo.zip")
-unzip("data_cageo.zip")
-mydata=pfAddData(files=c("Ben.csv","Small.csv"), 
-                   metadata="metadata.csv", type="CharAnalysis")
-
-## Transform:
-TR2 <- pfTransform(ID,add=mydata,BasePeriod=c(200,4000),
-                   method=c("MinMax","Box-Cox","MinMax","Z-Score"))
-## Delete downloaded files
-file.remove(c("Ben.csv","Small.csv","data_cageo.zip","metadata.csv"))
+## TR1 <- pfTransform(ID, method=c("MinMax","Box-Cox","Z-Score"))
 
 
 ###################################################
-### code chunk number 8: composite1
+### code chunk number 7: ADDDATA (eval = FALSE)
 ###################################################
-COMP1 <- pfComposite(TR2, binning=TRUE, 
-                     bins=seq(from=0,to=11000, by=500))
+## ## Add Ben lake and Small lake data to the 
+## # analysis (Senici et al., 2013) 
+## download.file(url="http://blarquez.com/public/data/data_cageo.zip", 
+##                 destfile="data_cageo.zip")
+## unzip("data_cageo.zip")
+## mydata=pfAddData(files=c("Ben.csv","Small.csv"), 
+##                    metadata="metadata.csv", type="CharAnalysis")
+## 
+## ## Transform:
+## TR2 <- pfTransform(ID,add=mydata,BasePeriod=c(200,4000),
+##                    method=c("MinMax","Box-Cox","MinMax","Z-Score"))
+## ## Delete downloaded files
+## file.remove(c("Ben.csv","Small.csv","data_cageo.zip","metadata.csv"))
 
 
 ###################################################
-### code chunk number 9: composite2
+### code chunk number 8: composite1 (eval = FALSE)
 ###################################################
-COMP2 <- pfCompositeLF(TR2, tarAge=seq(-50,12000,20), 
-                       binhw=10, hw=500, nboot=100)
+## COMP1 <- pfComposite(TR2, binning=TRUE, 
+##                      bins=seq(from=0,to=11000, by=500))
 
 
 ###################################################
-### code chunk number 10: plotting
+### code chunk number 9: composite2 (eval = FALSE)
 ###################################################
-par(mfrow=c(2,1))
-plot(COMP1,conf=c(0.025,0.975),main="(a)")
-plot(COMP2,conf=c(0.05,0.95),main="(b)")
+## COMP2 <- pfCompositeLF(TR2, tarAge=seq(-50,12000,20), 
+##                        binhw=10, hw=500, nboot=100)
 
 
 ###################################################
-### code chunk number 11: fig2
+### code chunk number 10: plottin (eval = FALSE)
 ###################################################
-par(mfrow=c(2,1))
-plot(COMP1,conf=c(0.025,0.975),main="(a)")
-plot(COMP2,conf=c(0.05,0.95),main="(b)")
+## par(mfrow=c(2,1))
+## plot(COMP1,conf=c(0.025,0.975),main="(a)")
+## plot(COMP2,conf=c(0.05,0.95),main="(b)")
 
 
 ###################################################
-### code chunk number 12: circ (eval = FALSE)
+### code chunk number 11: circ (eval = FALSE)
 ###################################################
 ## circboot <- pfCircular(COMP1, b=NULL, nboot=100,
 ##                         conf=c(0.005,0.025,0.975,0.995))

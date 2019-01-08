@@ -49,7 +49,7 @@
 #' 551-563. \cr \cr Mann, M. E. (2004). On smoothing potentially non-stationary
 #' climate time series. Geophysical Research Letters, 31(7).
 #' @examples
-#'
+#' \dontrun{
 #' ID=pfSiteSel(continent=="North America", l12==1, long>=-160 & long<=-140)
 #' plot(ID, xlim=c(-180, -130), ylim=c(40,80))
 #' TR=pfTransform(ID, method=c("MinMax","Box-Cox","MinMax","Z-Score"),
@@ -62,7 +62,7 @@
 #' ## Note: comparing confidence intervals based on 100 replicates is not recommended
 #' # (100 is used to decrease analysis time)
 #'
-#'
+#' }
 pfCompositeLF <- function(TR, hw=250,
                           tarAge=NULL, binhw=NULL,
                           nboot=1000, conf=c(0.05, 0.95),
@@ -294,19 +294,17 @@ pfCompositeLF <- function(TR, hw=250,
 #' @param \dots \dots{}
 #' @author O. Blarquez
 #' @examples
-#'
+#' \dontrun{
 #' ID=pfSiteSel(continent=="North America", l12==1, long>=-160 & long<=-140)
 #'
 #' TR=pfTransform(ID, method=c("MinMax","Box-Cox","MinMax","Z-Score"),
 #'                BasePeriod=c(200,2000),QuantType="INFL")
 #'
-#' COMP1=pfCompositeLF(TR, tarAge=seq(-50,4000,10), hw=200, nboot=100)
+#' COMP1=pfCompositeLF(TR, tarAge=seq(-50,4000,10), hw=200, nboot=999)
 #'
 #' plot(COMP1, type="density")
 #'
-#' ## Note: comparing confidence intervals based on 100 replicates is not recommended
-#' # (100 is used to decrease analysis time)
-#'
+#' }
 #'
 plot.pfCompositeLF <- function(x, type="ci", add="NULL", conf=c(0.05, 0.95), palette="jet", xlim=NULL,
                                ylim=NULL, main="Composite", text=FALSE, what="locfit", ...) {
@@ -459,7 +457,7 @@ contrib <- function(x) {
 #' @param \dots \dots{}
 #' @author O. Blarquez
 #' @examples
-#'
+#' \dontrun{
 #' ID=pfSiteSel(continent=="North America", l12==1, long>=-160 & long<=-140)
 #'
 #' TR=pfTransform(ID, method=c("MinMax","Box-Cox","MinMax","Z-Score"),
@@ -469,7 +467,7 @@ contrib <- function(x) {
 #'
 #' a=contrib(COMP1)
 #' plot(COMP1$BinCentres,a)
-#'
+#' }
 #'
 contrib.pfCompositeLF <- function(x, ...) {
   m <- x$BinnedData
