@@ -226,6 +226,8 @@ pretreatment <- function(params, serie, Int=TRUE, first=NULL, last=NULL, yrInter
 #' @param ylim ylim...
 #' @param xlab x axis label.
 #' @param ylab y axis label.
+#' @param main main plot title
+#' @param frame TRUE by default
 #' @param \dots \dots{}
 #' @author O. Blarquez
 #' @examples
@@ -242,7 +244,7 @@ pretreatment <- function(params, serie, Int=TRUE, first=NULL, last=NULL, yrInter
 #' plot(CHAR)
 #' }
 #'
-plot.CHAR <- function(x, xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, ...) {
+plot.CHAR <- function(x, xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, frame=TRUE, main=NULL, ...) {
 
   ## PLOT
   # Values for plotting
@@ -256,7 +258,7 @@ plot.CHAR <- function(x, xlim=NULL, ylim=NULL, xlab=NULL, ylab=NULL, ...) {
   # plot
   plot(age, accInit,
     type = "l", col = "grey", ylim = ylim, xlim = xlim, yaxs = "i",
-    xlab = xlab, ylab = ylab
+    xlab = xlab, ylab = ylab, frame = frame, main=main
   )
   polygon(c(age, age[length(age)]), c(accInit, -1e6), col = "grey")
   lines(age, accInit, type = "l", col = "grey")

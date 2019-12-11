@@ -4,8 +4,17 @@
 \alias{SEA}
 \title{Superposed Epoch Analysis}
 \usage{
-SEA(x, y, lag, b = NULL, conf = c(0.05, 0.95), nboot = 1000,
-  age = "CE")
+SEA(
+  x,
+  y,
+  lag,
+  b = NULL,
+  conf = c(0.05, 0.95),
+  nboot = 1000,
+  center = FALSE,
+  normalize = FALSE,
+  age = "CE"
+)
 }
 \arguments{
 \item{x}{data frame or matrix with ages and proxy values, younger ages on top.}
@@ -20,6 +29,10 @@ autocorrelation coefficient of the serie (Adams, Mann & Ammann 2003).}
 \item{conf}{confidence intervals for the block bootstrap procedure.}
 
 \item{nboot}{number of bootstrap replicates.}
+
+\item{center}{logical, center each epoch by substracting values to each epoch's mean (default = FALSE).}
+
+\item{normalize}{logical, normalize each epoch by calculating Z-Score (default = FALSE, see Adams, Mann & Ammann 2003)}
 
 \item{age}{type of ages used in x[,1] either "CE" for Common Era or "BP" for Before Present.}
 }
